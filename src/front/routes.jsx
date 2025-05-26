@@ -7,6 +7,7 @@ import { Register } from "./pages/Register";
 import { Dashboard } from "./pages/Dashboard"; // Asegúrate de crear este componente
 import Private from "./components/Private"; // Asegúrate de crear este componente
 import Error from "./pages/Error"; // Crea un componente de error personalizado
+import { Login } from "./pages/Login";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,6 +20,9 @@ export const router = createBrowserRouter(
       <Route path="single/:theId" element={<Single />} />
       <Route path="demo" element={<Demo />} />
       <Route path="register" element={<Register />} />
+      <Route path="login" element={<Login />} />
+      <Route path="login" element={<Login />} />
+      <Route path="dashboard" element={<Dashboard />} />
       {/* ESTA RUTA AHORA ESTÁ PROTEGIDA */}
       <Route
         path="private"

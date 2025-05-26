@@ -2,35 +2,32 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer";
 import "../index.css";
-import { register } from "../store";
+import { login } from "../store"; // Changed from register to login
 
-export const Register = () => {
+export const Login = () => {
   const { store, dispatch } = useGlobalReducer();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  // Cuando el registro sea exitoso, mostramos alerta y vamos al login
-    useEffect(() => {
-        if (store.message) {
-            alert("Registro exitoso. Redirigiendo al login...");
-            setTimeout(() => dispatch({ type: 'clear_error' }), 2000);
-            navigate("/login");
-        }
-    }, [store.message, navigate]);
+  // When login is successful, redirect to dashboard or home
+  useEffect(() => {
+    if (store.message) {
+      alert("Login exitoso. Redirigiendo...");
+      setTimeout(() => dispatch({ type: 'clear_error' }), 2000);
+      navigate("/dashboard"); // Change to your desired route after login
+    }
+  }, [store.message, navigate]);
 
-    // Limpiar error después de 5s
-    useEffect(() => {
-        if (store.error) {
-        //    alert(store.error);
-            setTimeout(() => dispatch({ type: 'clear_error' }), 3000);
-        //    navigate("/");
-        }
-    }, [store.error, dispatch]);
+  // Clear error after 5s
+  useEffect(() => {
+    if (store.error) {
+      setTimeout(() => dispatch({ type: 'clear_error' }), 3000);
+    }
+  }, [store.error, dispatch]);
 
-
- //Manejo al pulsar enviar
- const handleSubmit = async (e) => {
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!email.trim() || !password.trim()) {
@@ -38,11 +35,10 @@ export const Register = () => {
       return;
     }
 
-    let resp = await register(email, password, dispatch);
+    let resp = await login(email, password, dispatch); // Changed from register to login
     if (resp) {
-      console.log("Usuario Agregado");
+      console.log("Usuario autenticado");
     }
-    
   };
 
   return (
@@ -51,7 +47,7 @@ export const Register = () => {
         <div className="col-md-6 col-lg-4">
           <div className="card shadow">
             <div className="card-body">
-              <h2 className="card-title text-center mb-4">Registro</h2>
+              <h2 className="card-title text-center mb-4">Iniciar Sesión</h2> {/* Changed title */}
               
               {store.error && (
                 <div className="alert alert-danger">{store.error}</div>
@@ -88,12 +84,12 @@ export const Register = () => {
                   type="submit" 
                   className="btn btn-primary w-100 mb-3"
                 >
-                  Registrarse
+                  Iniciar Sesión {/* Changed button text */}
                 </button>
 
                 <div className="text-center">
-                  <Link to="/login" className="btn btn-link"  onClick={() => dispatch({ type: "clear_error" })}>
-                    Volver al Login
+                  <Link to="/register" className="btn btn-link" onClick={() => dispatch({ type: "clear_error" })}>
+                    ¿No tienes cuenta? Regístrate {/* Changed link text and destination */}
                   </Link>
                 </div>
               </form>
